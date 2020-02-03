@@ -1,0 +1,56 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# dice
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of dice is to ...
+
+## Installation
+
+You can install the -development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("romainfrancois/dice")
+```
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(dice)
+library(dplyr, warn.conflicts = FALSE)
+
+gf <- iris %>% group_by(Species)
+
+# 3 slices of Sepal.Length following the groups of gf
+chop(gf, gf$Sepal.Length)
+
+# dice() to lazily get chop()ed columns
+e <- dice(gf)
+e$Sepal.Length
+
+# Use the callback= to act when a column is chop()ed
+e <- dice(gf, callback = print)
+
+# A list is being printed when the chop()ing happens
+chunks <- e$Sepal.Length
+
+# but then not anymore as it has now been resolved already
+e$Sepal.Length
+```

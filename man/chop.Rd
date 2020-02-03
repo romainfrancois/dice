@@ -3,7 +3,7 @@
 \name{chop}
 \alias{chop}
 \alias{chop.rowwise_df}
-\title{chop}
+\title{Chop a vector along the groups of a data frame}
 \usage{
 chop(data, x)
 
@@ -12,8 +12,19 @@ chop(data, x)
 \arguments{
 \item{data}{A tibble}
 
-\item{x}{A column of `data`}
+\item{x}{A vector, most often a column of `data`}
+}
+\value{
+a list of slices of `x` with one element per group of `data`
 }
 \description{
-chop
+Chop a vector along the groups of a data frame
+}
+\examples{
+gdf <- iris \%>\%
+  dplyr::group_by(Species)
+
+chop(gdf, iris$Sepal.Length)
+chop(gdf, 1:150)
+
 }
