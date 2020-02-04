@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![R build
+status](https://github.com/romainfrancois/dice/workflows/R-CMD-check/badge.svg)](https://github.com/romainfrancois/dice)
 <!-- badges: end -->
 
 The goal of dice is to …
