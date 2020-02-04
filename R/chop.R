@@ -24,11 +24,10 @@ chop.data.frame <- function(data, x) {
 
 #' @importFrom dplyr group_rows
 #' @importFrom purrr map
-#' @importFrom vctrs vec_slice
+#' @importFrom vctrs vec_slice vec_chop
 #' @export
 chop.grouped_df <- function(data, x) {
-  rows <- group_rows(data)
-  map(rows, vec_slice, x = x)
+  vec_chop(x, group_rows(data))
 }
 
 #' @rdname chop
@@ -41,17 +40,17 @@ chop.rowwise_df <- function(data, x) {
 #' @method chop.rowwise_df default
 #' @export
 chop.rowwise_df.default <- function(data, x) {
-  map(seq_along(nrow(data)), vec_slice, x = x)
+  vec_chop(x)
 }
 
 #' @method chop.rowwise_df list
 #' @export
 chop.rowwise_df.list <- function(data, x) {
-  map(seq_along(nrow(data)), function(i) vec_slice(x, i)[[1L]])
+  map(vec_chop(x), `[[`, 1L)
 }
 
 #' @method chop.rowwise_df data.frame
 #' @export
 chop.rowwise_df.data.frame <- function(data, x) {
-  map(seq_along(nrow(data)), vec_slice, x = x)
+  vec_chop(x)
 }
