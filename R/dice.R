@@ -20,7 +20,7 @@
 #'
 #' chunks <- e$Sepal.Width
 #'
-#' @importFrom rlang env chr_unserialise_unicode env_bind_lazy set_names as_function
+#' @importFrom rlang env chr_unserialise_unicode env_bind_lazy set_names as_function expr
 #' @importFrom purrr pmap
 #' @export
 dice <- function(data, callback = NULL) {

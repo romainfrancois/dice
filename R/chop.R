@@ -33,6 +33,7 @@ chop.grouped_df <- function(data, x) {
 #' @rdname chop
 #' @export chop.rowwise_df
 #' @method chop rowwise_df
+#' @export
 chop.rowwise_df <- function(data, x) {
   UseMethod("chop.rowwise_df", x)
 }
