@@ -3,7 +3,6 @@
 \docType{import}
 \name{reexports}
 \alias{reexports}
-\alias{group_by}
 \alias{tibble}
 \alias{\%>\%}
 \title{Objects exported from other packages}
@@ -13,8 +12,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{dplyr}{\code{\link[dplyr]{group_by}}, \code{\link[dplyr]{group_by}}}
-
   \item{magrittr}{\code{\link[magrittr]{\%>\%}}}
 
   \item{tibble}{\code{\link[tibble]{tibble}}}

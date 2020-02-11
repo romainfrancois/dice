@@ -13,17 +13,11 @@ vec_parallel_chop_altrep1 <- function(x, indices = NULL) {
   .Call(`dice_vec_parallel_chop_altrep1`, x, indices)
 }
 
-#' @export
-vec_parallel_chop_altrep2 <- function(x, indices = NULL) {
-  .Call(`dice_vec_parallel_chop_altrep2`, x, indices)
-}
-
-
 #' @importFrom rlang is_double
 #' @export
 vec_parallel_chop <- function(x, indices = NULL) {
   if (is_double(x)) {
-    vec_parallel_chop_dbl(x, indices)
+    vec_parallel_chop_altrep1(x, indices)
   } else {
     vec_chop(x, indices)
   }
@@ -53,12 +47,11 @@ chop.data.frame <- function(data, x) {
   list(x)
 }
 
-#' @importFrom dplyr group_rows
 #' @importFrom purrr map
 #' @importFrom vctrs vec_slice vec_chop
 #' @export
 chop.grouped_df <- function(data, x) {
-  vec_parallel_chop(x, group_rows(data))
+  vec_parallel_chop(x, dplyr::group_rows(data))
 }
 
 #' @rdname chop
