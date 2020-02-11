@@ -1,3 +1,34 @@
+#' @export
+vec_parallel_chop_dbl <- function(x, indices = NULL) {
+  .Call(`dice_vec_parallel_chop`, x, indices)
+}
+
+#' @export
+vec_parallel_chop_dbl_allocate <- function(x, indices = NULL) {
+  .Call(`dice_vec_parallel_chop_allocate`, x, indices)
+}
+
+#' @export
+vec_parallel_chop_altrep1 <- function(x, indices = NULL) {
+  .Call(`dice_vec_parallel_chop_altrep1`, x, indices)
+}
+
+#' @export
+vec_parallel_chop_altrep2 <- function(x, indices = NULL) {
+  .Call(`dice_vec_parallel_chop_altrep2`, x, indices)
+}
+
+
+#' @importFrom rlang is_double
+#' @export
+vec_parallel_chop <- function(x, indices = NULL) {
+  if (is_double(x)) {
+    vec_parallel_chop_dbl(x, indices)
+  } else {
+    vec_chop(x, indices)
+  }
+}
+
 #' Chop a vector along the groups of a data frame
 #'
 #' @param data A tibble
@@ -27,7 +58,7 @@ chop.data.frame <- function(data, x) {
 #' @importFrom vctrs vec_slice vec_chop
 #' @export
 chop.grouped_df <- function(data, x) {
-  vec_chop(x, group_rows(data))
+  vec_parallel_chop(x, group_rows(data))
 }
 
 #' @rdname chop
@@ -41,17 +72,17 @@ chop.rowwise_df <- function(data, x) {
 #' @method chop.rowwise_df default
 #' @export
 chop.rowwise_df.default <- function(data, x) {
-  vec_chop(x)
+  vec_parallel_chop(x)
 }
 
 #' @method chop.rowwise_df list
 #' @export
 chop.rowwise_df.list <- function(data, x) {
-  map(vec_chop(x), `[[`, 1L)
+  map(vec_parallel_chop(x), `[[`, 1L)
 }
 
 #' @method chop.rowwise_df data.frame
 #' @export
 chop.rowwise_df.data.frame <- function(data, x) {
-  vec_chop(x)
+  vec_parallel_chop(x)
 }

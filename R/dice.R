@@ -1,3 +1,6 @@
+#' @useDynLib dice, .registration = TRUE
+#' @importFrom RcppParallel RcppParallelLibs
+NULL
 
 #' Lazily chop columns of a data frame
 #'
