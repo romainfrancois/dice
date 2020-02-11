@@ -9,7 +9,7 @@ struct dice_chop_dbl {
   static SEXP Make(SEXP host, int start, int n){
     SEXP bounds = PROTECT(Rf_allocVector(INTSXP, 2));
     INTEGER0(bounds)[0] = start;
-    INTEGER0(bounds)[1] = start + n;
+    INTEGER0(bounds)[1] = n;
     SEXP res = R_new_altrep(class_t, host, bounds);
     UNPROTECT(1);
     return res;
@@ -19,8 +19,7 @@ struct dice_chop_dbl {
 
   // The length of the object
   static R_xlen_t Length(SEXP vec){
-    int* p_bounds = INTEGER(R_altrep_data2(vec));
-    return p_bounds[1] - p_bounds[0];
+    return INTEGER_ELT(R_altrep_data2(vec), 1);
   }
 
   // What gets printed when .Internal(inspect()) is used
