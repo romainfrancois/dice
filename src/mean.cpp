@@ -3,8 +3,8 @@
 SEXP means_narm(SEXP chunks) {
   R_xlen_t n = XLENGTH(chunks);
 
-  SEXP res = PROTECT(Rf_allocVector(REALSXP, n));
-  double* p_res = REAL(res);
+  SEXP result = PROTECT(Rf_allocVector(REALSXP, n));
+  double* p_res = REAL(result);
 
   for (R_xlen_t i=0; i<n; i++, ++p_res) {
     SEXP x = VECTOR_ELT(chunks, i);
@@ -19,28 +19,29 @@ SEXP means_narm(SEXP chunks) {
         res += *p_x;
       }
     }
-
     if (m_x == 0) {
       res = R_NaN;
     } else {
       long double t = 0.0;
       p_x = REAL(x);
-      for (R_xlen_t j = 0; j < n_x; j++) {
+      for (R_xlen_t j = 0; j < n_x; j++, ++p_x) {
         t += R_IsNA(*p_x) ? 0.0 : (*p_x - res);
       }
-      res += t / m_x;
+      res += (t / m_x);
     }
 
     *p_res = (double)res;
   }
-  return res;
+
+  UNPROTECT(1);
+  return result;
 }
 
 SEXP means_narm_chop(SEXP vec, SEXP rows) {
   R_xlen_t n = XLENGTH(rows);
 
-  SEXP res = PROTECT(Rf_allocVector(REALSXP, n));
-  double* p_res = REAL(res);
+  SEXP result = PROTECT(Rf_allocVector(REALSXP, n));
+  double* p_res = REAL(result);
   double* p_vec = REAL(vec);
   for (R_xlen_t i=0; i<n; i++, ++p_res) {
     SEXP rows_i = VECTOR_ELT(rows, i);
@@ -62,7 +63,7 @@ SEXP means_narm_chop(SEXP vec, SEXP rows) {
     } else {
       long double t = 0.0;
       p_rows_i = INTEGER(rows_i);
-      for (R_xlen_t j = 0; j < n_x; j++) {
+      for (R_xlen_t j = 0; j < n_x; j++, ++p_rows_i) {
         double value = p_vec[*p_rows_i - 1];
         t += R_IsNA(value) ? 0.0 : (value - res);
       }
@@ -71,5 +72,7 @@ SEXP means_narm_chop(SEXP vec, SEXP rows) {
 
     *p_res = (double)res;
   }
-  return res;
+
+  UNPROTECT(1);
+  return result;
 }

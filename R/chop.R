@@ -13,6 +13,11 @@ vec_parallel_chop_altrep1 <- function(x, indices = NULL) {
   .Call(`dice_vec_parallel_chop_altrep1`, x, indices)
 }
 
+#' @export
+vec_parallel_chop_altrep_mean <- function(x, indices = NULL) {
+  .Call(`dice_vec_parallel_chop_altrep_mean`, x, indices)
+}
+
 #' @importFrom rlang is_double
 #' @export
 vec_parallel_chop <- function(x, indices = NULL) {
