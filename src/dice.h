@@ -11,4 +11,6 @@ SEXP dice_vec_parallel_chop_altrep(SEXP x, SEXP indices);
 SEXP dice_vec_parallel_chop_altrep_mean(SEXP x, SEXP indices);
 
 SEXP means_narm(SEXP);
+SEXP means_narm_parallel(SEXP);
+
 SEXP means_narm_chop(SEXP, SEXP);
