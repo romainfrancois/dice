@@ -81,6 +81,8 @@ SEXP dice_vec_parallel_chop_altrep(SEXP x, SEXP indices) {
 
   // allocate a vector as big as x
   SEXP host = PROTECT(Rf_allocVector(REALSXP, XLENGTH(x)));
+  double* p_x = REAL(x);
+  double* p_host = REAL(host);
 
   // where each group starts in the host
   SEXP starts = PROTECT(Rf_allocVector(INTSXP, n));
@@ -106,14 +108,14 @@ SEXP dice_vec_parallel_chop_altrep(SEXP x, SEXP indices) {
       p_starts[i] = k;
       k += XLENGTH(VECTOR_ELT(indices, i));
     }
+    p_starts = INTEGER(starts);
 
     // then fill in parallel
     tbb::parallel_for(R_xlen_t(0), n, [=](R_xlen_t i) {
       SEXP indices_i = VECTOR_ELT(indices, i);
       R_xlen_t n_i = XLENGTH(indices_i);
       int* p_indices = INTEGER(indices_i);
-      double* p_x = REAL(x);
-      double* p_res = REAL(host) + INTEGER_ELT(starts, i);
+      double* p_res = p_host + p_starts[i];
 
       for (R_xlen_t j=0; j<n_i; j++, ++p_res, ++p_indices) {
         *p_res = p_x[*p_indices - 1];
